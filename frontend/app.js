@@ -1,4 +1,4 @@
-const apiBase = "http://localhost:5000/api/tasks";
+const API_URL = "https://todo-api-8noq.onrender.com/api/tasks"; // 🔥 Your Render API URL
 
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
@@ -6,7 +6,7 @@ const taskList = document.getElementById("taskList");
 
 // Fetch tasks from backend
 async function fetchTasks() {
-  const res = await fetch(apiBase);
+  const res = await fetch(API_URL);
   const tasks = await res.json();
   taskList.innerHTML = "";
   tasks.forEach(addTaskToDOM);
@@ -17,7 +17,7 @@ addTaskBtn.addEventListener("click", async () => {
   const title = taskInput.value.trim();
   if (!title) return alert("Enter a task!");
 
-  const res = await fetch(apiBase, {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title }),
@@ -43,7 +43,7 @@ function addTaskToDOM(task) {
 
 // Toggle complete
 async function toggleTask(id, currentState) {
-  const res = await fetch(`${apiBase}/${id}`, {
+  await fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ completed: !currentState }),
@@ -53,7 +53,7 @@ async function toggleTask(id, currentState) {
 
 // Delete task
 async function deleteTask(id) {
-  await fetch(`${apiBase}/${id}`, { method: "DELETE" });
+  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
   fetchTasks();
 }
 
